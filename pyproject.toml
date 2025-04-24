@@ -7,7 +7,7 @@ name = "financial-markets-analyser"
 version = "0.1.0"
 description = "A financial markets analysis tool using free financial data APIs"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
     {name = "Benjamin Herro", email = "benjamincsherro@hotmail.com"}
