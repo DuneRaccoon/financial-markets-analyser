@@ -491,20 +491,20 @@ async def get_company_news(ticker: str, limit: int = 10) -> str:
         news = stock.news
         
         if news:
-            # Format the news articles
-            articles = []
-            for article in news[:limit]:
-                articles.append({
-                    "title": article.get("title"),
-                    "publisher": article.get("publisher"),
-                    "link": article.get("link"),
-                    "published_at": datetime.fromtimestamp(article.get("providerPublishTime", 0)).isoformat() if article.get("providerPublishTime") else None,
-                    "type": article.get("type"),
-                    "thumbnail": article.get("thumbnail", {}).get("resolutions", [{}])[0].get("url") if article.get("thumbnail") else None,
-                })
+            # # Format the news articles
+            # articles = []
+            # for article in news[:limit]:
+            #     articles.append({
+            #         "title": article.get("title"),
+            #         "publisher": article.get("publisher"),
+            #         "link": article.get("link"),
+            #         "published_at": datetime.fromtimestamp(article.get("providerPublishTime", 0)).isoformat() if article.get("providerPublishTime") else None,
+            #         "type": article.get("type"),
+            #         "thumbnail": article.get("thumbnail", {}).get("resolutions", [{}])[0].get("url") if article.get("thumbnail") else None,
+            #     })
             
-            logger.info(f"Successfully retrieved {len(articles)} news articles from Yahoo Finance for {ticker}")
-            return json.dumps(articles, indent=2)
+            logger.info(f"Successfully retrieved {len(news)} news articles from Yahoo Finance for {ticker}")
+            return json.dumps(news, indent=2)
     except Exception as e:
         logger.error(f"Error retrieving news from Yahoo Finance: {str(e)}")
     
@@ -700,7 +700,7 @@ async def get_current_crypto_price(ticker: str) -> str:
 def main():
     """Main entry point for the server."""
     # Log server startup
-    logger.info("Starting Financial Markets Analyser MCP Server with free APIs...")
+    logger.info("Starting Financial Markets Analyser MCP Server")
 
     # Initialize and run the server
     mcp.run(transport="stdio")
