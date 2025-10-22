@@ -528,19 +528,9 @@ async def get_available_crypto_tickers() -> str:
     
     # Use CoinGecko API to get list of all coins
     url = f"{COINGECKO_BASE_URL}/coins/list"
-    data = await make_request(url)
+    tickers = await make_request(url)
     
-    if not data.get("Error") and isinstance(data, list):
-        # Format the tickers
-        tickers = []
-        for coin in data:
-            tickers.append({
-                "id": coin.get("id"),
-                "symbol": coin.get("symbol").upper(),
-                "name": coin.get("name"),
-                "ticker": f"{coin.get('symbol').upper()}-USD",  # Format similar to original API
-            })
-        
+    if tickers and isinstance(tickers, list):
         logger.info(f"Successfully retrieved {len(tickers)} crypto tickers from CoinGecko")
         return json.dumps(tickers, indent=2)
     

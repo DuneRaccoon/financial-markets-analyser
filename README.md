@@ -181,14 +181,6 @@ Be mindful of these rate limits for free tiers:
 
 The server implements a fallback system to manage these limits efficiently.
 
-## Differences from financialdatasets.ai
-
-This package aims to provide equivalent functionality to financialdatasets.ai but using free APIs. Key differences:
-
-- Slightly different data format in responses
-- Some advanced financial data might be less comprehensive
-- Rate limits on free tier APIs may affect high-volume usage
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
