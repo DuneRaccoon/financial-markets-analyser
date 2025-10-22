@@ -1,13 +1,40 @@
 # Financial Markets Analyser
 
-A FastMCP server that offers financial data endpoints for stocks and cryptocurrencies. Gets the job done with free tiers for all services and always falls back to Yahoo Finance if other APIs are down (or API keys aren't provded)
+A comprehensive FastMCP server that provides advanced financial market analysis tools for making informed investment decisions. This server combines multiple free data sources with sophisticated analytics to give agents access to institutional-grade market intelligence.
 
 ## Features
 
-- **Stock Market Data**: Historical prices, current prices, income statements, balance sheets, cash flow statements
-- **Cryptocurrency Data**: Current and historical prices, cryptocurrency listings
-- **Company News**: Latest news for publicly traded companies
+### 📊 Core Market Data
+- **Stock Market Data**: Real-time and historical prices, financial statements (income, balance sheet, cash flow)
+- **Cryptocurrency Data**: Current and historical prices for thousands of cryptocurrencies
+- **Company News**: Latest news articles with sentiment analysis
 - **Multi-Source Fallback System**: Automatically tries multiple data sources to ensure reliability
+
+### 📈 Advanced Market Analysis
+- **Market Indices**: Track major indices (S&P 500, NASDAQ, Dow, Russell 2000, VIX, international markets)
+- **Sector Performance**: Real-time sector rotation analysis and performance tracking
+- **Economic Indicators**: Federal funds rate, CPI/inflation, GDP, unemployment, Treasury yields, yield curve analysis
+- **Market Sentiment**: Comprehensive sentiment indicators including VIX, Put/Call ratios, advance/decline, Fear & Greed metrics
+
+### 💼 Fundamental Analysis
+- **Financial Ratios**: Profitability, liquidity, leverage, efficiency, and valuation metrics
+- **DCF Valuation**: Discounted Cash Flow models with customizable parameters
+- **Peer Comparison**: Compare companies against industry peers across key metrics
+- **Analyst Ratings**: Consensus ratings, price targets, and recommendation trends
+- **Earnings Analysis**: Earnings history, surprises, estimates, and upcoming earnings calendar
+
+### 📉 Technical Analysis
+- **Technical Indicators**: SMA, EMA, RSI, MACD, Bollinger Bands, ATR, OBV with trading signals
+- **Chart Pattern Detection**: Identify double tops/bottoms, support/resistance levels
+- **Fibonacci Levels**: Calculate retracement and extension levels for trend analysis
+- **Trend Analysis**: Automated trend detection and strength measurement
+
+### 🔍 Advanced Market Intelligence
+- **Options Data**: Full options chains, implied volatility, IV surface analysis
+- **Insider Trading**: Track insider transactions and identify patterns
+- **Institutional Ownership**: Monitor institutional holdings and changes
+- **Portfolio Risk Analysis**: Calculate Sharpe ratio, VaR, beta, correlation, drawdown analysis
+- **News Sentiment**: AI-powered sentiment analysis of company news
 
 ## Free Data Sources Used
 
@@ -101,7 +128,7 @@ financial-markets-analyser
 
 ### Available Methods
 
-#### Stock Market Data
+#### Core Stock Market Data
 
 | Method | Description | Parameters |
 |--------|-------------|------------|
@@ -119,6 +146,50 @@ financial-markets-analyser
 | `get_available_crypto_tickers` | Get list of available cryptocurrencies | None |
 | `get_current_crypto_price` | Get latest price for a cryptocurrency | `ticker`: Symbol (e.g., BTC-USD) |
 | `get_historical_crypto_prices` | Get historical cryptocurrency prices | `ticker`: Symbol (e.g., BTC-USD)<br>`start_date`: Start date (YYYY-MM-DD)<br>`end_date`: End date (YYYY-MM-DD)<br>`interval`: Time interval (minute, hour, day) |
+
+#### Market Overview & Indices
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `get_market_indices` | Get current prices and performance of major market indices (S&P 500, NASDAQ, Dow, VIX, etc.) | None |
+| `get_sector_performance` | Get performance of major market sectors | `period`: Time period (1d, 5d, 1mo, 3mo, 6mo, 1y, ytd) |
+| `get_economic_indicators` | Get key economic indicators (interest rates, inflation, GDP, unemployment, yield curve) | None |
+| `get_market_sentiment_indicators` | Get comprehensive market sentiment (VIX, Put/Call ratio, Fear & Greed, advance/decline) | None |
+
+#### Fundamental Analysis
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `get_financial_ratios` | Calculate comprehensive financial ratios (profitability, liquidity, leverage, efficiency, valuation) | `ticker`: Symbol<br>`period`: "annual" or "quarterly"<br>`limit`: Number of periods (default: 4) |
+| `perform_dcf_valuation` | Perform Discounted Cash Flow valuation analysis | `ticker`: Symbol<br>`forecast_years`: Years to forecast (default: 5)<br>`terminal_growth_rate`: Long-term growth rate (default: 0.02)<br>`discount_rate`: WACC or required return (default: 0.09) |
+| `compare_peers` | Compare a company with industry peers on key metrics | `ticker`: Symbol<br>`metrics`: List of metrics to compare |
+| `get_analyst_ratings` | Get analyst ratings, price targets, and recommendations | `ticker`: Symbol |
+| `get_earnings_history` | Get historical earnings with estimates, actuals, and surprises | `ticker`: Symbol<br>`limit`: Number of reports (default: 4) |
+| `get_earnings_calendar` | Get upcoming earnings announcements | `from_date`: Start date (default: today)<br>`to_date`: End date (default: +7 days) |
+
+#### Technical Analysis
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `get_technical_indicators` | Calculate technical indicators (SMA, EMA, RSI, MACD, BB, ATR, OBV) with trading signals | `ticker`: Symbol<br>`start_date`: Start date<br>`end_date`: End date<br>`indicators`: List of indicators |
+| `detect_chart_patterns` | Detect chart patterns (double tops/bottoms, support/resistance) | `ticker`: Symbol<br>`start_date`: Start date<br>`end_date`: End date |
+| `calculate_fibonacci_levels` | Calculate Fibonacci retracement and extension levels | `ticker`: Symbol<br>`trend_type`: "uptrend" or "downtrend"<br>`lookback_days`: Days to analyze (default: 90) |
+
+#### Options & Derivatives
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `get_options_chain` | Get full options chain with calls and puts | `ticker`: Symbol<br>`expiration_date`: Specific expiration or None for nearest |
+| `get_implied_volatility_surface` | Get IV surface across strikes and expirations | `ticker`: Symbol |
+
+#### Market Intelligence
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `get_insider_transactions` | Get recent insider trading transactions | `ticker`: Symbol<br>`limit`: Number of transactions (default: 20) |
+| `get_institutional_ownership` | Get institutional ownership data | `ticker`: Symbol |
+| `analyze_news_sentiment` | Analyze sentiment of recent news articles | `ticker`: Symbol<br>`days`: Lookback period (default: 7) |
+| `analyze_portfolio_risk` | Comprehensive portfolio risk analysis (Sharpe, beta, VaR, correlation, diversification) | `tickers`: List of symbols<br>`weights`: Portfolio weights<br>`period`: Analysis period (default: 5y) |
 
 ### Example Client Code
 

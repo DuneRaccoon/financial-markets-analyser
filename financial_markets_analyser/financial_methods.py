@@ -1,9 +1,23 @@
+import json
+from typing import List, Optional
+import numpy as np
+import pandas as pd
 
 # ------------------------------------------------------------------------------------------------------
-# Financial Aanalysis
+# Financial Analysis
 # ------------------------------------------------------------------------------------------------------
 
-@mcp.tool()
+# Import from server (will be set when this module is imported by server.py)
+logger = None
+get_income_statements = None
+get_balance_sheets = None
+get_cash_flow_statements = None
+get_current_stock_price = None
+get_historical_stock_prices = None
+get_historical_crypto_prices = None
+get_company_news = None
+
+
 async def get_financial_ratios(
     ticker: str,
     period: str = "annual",
@@ -108,7 +122,7 @@ async def get_financial_ratios(
         return json.dumps({"Error": f"Failed to calculate ratios: {str(e)}"}, indent=2)
 
 
-@mcp.tool()
+
 async def perform_dcf_valuation(
     ticker: str,
     forecast_years: int = 5,
@@ -251,7 +265,7 @@ async def perform_dcf_valuation(
         return json.dumps({"Error": f"Failed to perform DCF valuation: {str(e)}"}, indent=2)
 
 
-@mcp.tool()
+
 async def get_technical_indicators(
     ticker: str,
     start_date: str,
@@ -458,7 +472,7 @@ async def get_technical_indicators(
         return json.dumps({"Error": f"Failed to calculate technical indicators: {str(e)}"}, indent=2)
 
 
-@mcp.tool()
+
 async def analyze_portfolio_risk(
     tickers: List[str],
     weights: Optional[List[float]] = None,
@@ -723,7 +737,7 @@ async def analyze_portfolio_risk(
         return json.dumps({"Error": f"Failed to analyze portfolio risk: {str(e)}"}, indent=2)
 
 
-@mcp.tool()
+
 async def compare_peers(
     ticker: str,
     metrics: Optional[List[str]] = None,
@@ -1015,7 +1029,7 @@ async def compare_peers(
         return json.dumps({"Error": f"Failed to compare peers: {str(e)}"}, indent=2)
 
 
-@mcp.tool()
+
 async def analyze_news_sentiment(
     ticker: str,
     days: int = 7,

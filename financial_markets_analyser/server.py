@@ -638,17 +638,17 @@ async def get_current_crypto_price(ticker: str) -> str:
         ticker: Ticker symbol of the crypto currency (e.g. BTC-USD)
     """
     logger.info(f"Getting current crypto price for {ticker}")
-    
+
     # Convert ticker to CoinGecko format
     coin_id = convert_ticker_to_coingecko_id(ticker)
-    
+
     # Use CoinGecko API to get current price
     url = f"{COINGECKO_BASE_URL}/coins/{coin_id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false"
     data = await make_request(url)
-    
+
     if not data.get("Error") and "market_data" in data:
         market_data = data["market_data"]
-        
+
         snapshot = {
             "ticker": ticker,
             "name": data.get("name"),
@@ -661,15 +661,15 @@ async def get_current_crypto_price(ticker: str) -> str:
             "price_change_percentage_24h": market_data.get("price_change_percentage_24h"),
             "timestamp": datetime.now().isoformat(),
         }
-        
+
         logger.info(f"Successfully retrieved current crypto price from CoinGecko for {ticker}")
         return json.dumps(snapshot, indent=2)
-    
+
     # Fallback to Yahoo Finance for cryptocurrencies it covers
     try:
         crypto = yf.Ticker(ticker)
         info = crypto.info
-        
+
         if info:
             snapshot = {
                 "ticker": ticker,
@@ -679,13 +679,77 @@ async def get_current_crypto_price(ticker: str) -> str:
                 "volume": info.get("regularMarketVolume"),
                 "timestamp": datetime.now().isoformat(),
             }
-            
+
             logger.info(f"Successfully retrieved current crypto price from Yahoo Finance for {ticker}")
             return json.dumps(snapshot, indent=2)
     except Exception as e:
         logger.error(f"Error retrieving current crypto price from Yahoo Finance: {str(e)}")
-    
+
     return json.dumps({"Error": "Unable to fetch current crypto price or no price found."}, indent=2)
+
+
+# Import and register financial analysis methods
+try:
+    import financial_markets_analyser.financial_methods as fin_methods
+
+    # Set up module-level references
+    fin_methods.logger = logger
+    fin_methods.get_income_statements = get_income_statements
+    fin_methods.get_balance_sheets = get_balance_sheets
+    fin_methods.get_cash_flow_statements = get_cash_flow_statements
+    fin_methods.get_current_stock_price = get_current_stock_price
+    fin_methods.get_historical_stock_prices = get_historical_stock_prices
+    fin_methods.get_historical_crypto_prices = get_historical_crypto_prices
+    fin_methods.get_company_news = get_company_news
+
+    # Register financial analysis tools with MCP
+    mcp.tool()(fin_methods.get_financial_ratios)
+    mcp.tool()(fin_methods.perform_dcf_valuation)
+    mcp.tool()(fin_methods.get_technical_indicators)
+    mcp.tool()(fin_methods.analyze_portfolio_risk)
+    mcp.tool()(fin_methods.compare_peers)
+    mcp.tool()(fin_methods.analyze_news_sentiment)
+
+    logger.info("Successfully registered financial analysis tools")
+except Exception as e:
+    logger.warning(f"Could not load financial analysis tools: {str(e)}")
+
+
+# Import and register advanced tools
+try:
+    import financial_markets_analyser.advanced_market_tools as advanced_tools
+
+    # Set up module-level references
+    advanced_tools.logger = logger
+    advanced_tools.make_request = make_request
+    advanced_tools.make_sync_request = make_sync_request
+    advanced_tools.FMP_API_KEY = FMP_API_KEY
+    advanced_tools.FMP_BASE_URL = FMP_BASE_URL
+    advanced_tools.ALPHA_VANTAGE_API_KEY = ALPHA_VANTAGE_API_KEY
+    advanced_tools.ALPHA_VANTAGE_BASE_URL = ALPHA_VANTAGE_BASE_URL
+    advanced_tools.get_current_stock_price = get_current_stock_price
+    advanced_tools.get_historical_stock_prices = get_historical_stock_prices
+    advanced_tools.get_historical_crypto_prices = get_historical_crypto_prices
+
+    # Register advanced tools with MCP
+    mcp.tool()(advanced_tools.get_market_indices)
+    mcp.tool()(advanced_tools.get_sector_performance)
+    mcp.tool()(advanced_tools.get_economic_indicators)
+    mcp.tool()(advanced_tools.get_options_chain)
+    mcp.tool()(advanced_tools.get_implied_volatility_surface)
+    mcp.tool()(advanced_tools.get_insider_transactions)
+    mcp.tool()(advanced_tools.get_institutional_ownership)
+    mcp.tool()(advanced_tools.get_market_sentiment_indicators)
+    mcp.tool()(advanced_tools.get_analyst_ratings)
+    mcp.tool()(advanced_tools.get_earnings_calendar)
+    mcp.tool()(advanced_tools.get_earnings_history)
+    mcp.tool()(advanced_tools.detect_chart_patterns)
+    mcp.tool()(advanced_tools.calculate_fibonacci_levels)
+
+    logger.info("Successfully registered advanced market analysis tools")
+except Exception as e:
+    logger.warning(f"Could not load advanced market tools: {str(e)}")
+
 
 def main():
     """Main entry point for the server."""
